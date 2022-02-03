@@ -4,11 +4,11 @@ import './common.scss';
 import Calendar from './components/calendar/Calendar.jsx';
 import Header from './components/header/Header.jsx';
 import AppContext from './context/contex.js';
-import eventsObj from './gateway/events.js';
 
 const App = () => {
-  const [events, setEvents] = useState(eventsObj);
   const [modal, setModal] = useState({ visable: false, defaultValue: null });
+  const [popup, setPopup] = useState({ visable: false, dimensions: null });
+  const [popupPosition, setPopupPosition] = useState(null);
   const [weekStartDate, setWeekStartDate] = useState(
     getWeekStartDate(new Date())
   );
@@ -20,8 +20,10 @@ const App = () => {
         setModal,
         weekStartDate,
         setWeekStartDate,
-        events,
-        setEvents,
+        popup,
+        setPopup,
+        popupPosition,
+        setPopupPosition,
       }}
     >
       <Header />

@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { useState } from 'react';
+import { timeFormater } from '../utils/dateUtils';
 
 export const useDefaultValue = () => {
   const [defaultValue, setDefaultValue] = useState({
@@ -14,8 +15,8 @@ export const useDefaultValue = () => {
     setDefaultValue({
       title: data?.title ? data.title : '',
       date: data?.date ? moment(data.date).format('YYYY-MM-DD') : '',
-      dateFrom: data?.dateFrom ? moment(data.dateFrom).format('hh:mm') : '',
-      dateTo: data?.dateTo ? moment(data.dateTo).format('hh:mm') : '',
+      dateFrom: data?.dateFrom ? timeFormater(data.dateFrom) : '',
+      dateTo: data?.dateTo ? timeFormater(data.dateTo) : '',
       description: data?.description ? data.description : '',
     });
   };

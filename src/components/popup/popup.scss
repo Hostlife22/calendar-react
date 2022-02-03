@@ -1,0 +1,54 @@
+.popup {
+  &__content {
+    position: absolute;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    min-height: 200px;
+    width: 400px;
+    box-shadow: 0px 24px 38px 3px rgb(0 0 0 / 14%),
+      0px 9px 46px 8px rgb(0 0 0 / 12%), 0px 11px 15px -7px rgb(0 0 0 / 20%);
+  }
+
+  &__description {
+    padding: 0 15px 15px;
+  }
+
+  &__error {
+    color: #ff0000;
+  }
+
+  &__title {
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #1a73e8;
+    margin-bottom: 10px;
+    word-break: break-all;
+  }
+
+  &__event {
+    margin-bottom: 8px;
+  }
+
+  &__text {
+    word-break: break-all;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: end;
+  }
+
+  &__btn {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+}

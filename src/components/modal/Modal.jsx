@@ -5,14 +5,15 @@ import { useDefaultValue } from '../../hooks/useUpdateForm';
 import { getDateTime } from '../../utils/dateUtils';
 import './modal.scss';
 
-const Modal = () => {
-  const { setEvents, setModal, modal } = useContext(AppContext);
+const Modal = ({ createEvent }) => {
+  const { setModal, modal } = useContext(AppContext);
   const [defaultValue, setDefaultValue] = useDefaultValue(null);
   const [errosDate, setErrosDate] = useState('');
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm({
     mode: 'onBlur',
@@ -21,6 +22,7 @@ const Modal = () => {
   // Отслеживаю ошибки и формирую сообщение об ошибки
   useEffect(() => {
     if (errors.date || errors.dateTo || errors.dateFrom) {
+      console.log(errors.date, errors.dateTo, errors.dateFrom);
       const errorMessage = [errors.date, errors.dateFrom, errors.dateTo]
         .filter((error) => error !== undefined)
         .map((error) => error.message)
@@ -39,6 +41,16 @@ const Modal = () => {
     }
   }, [modal.defaultValue]);
 
+  useEffect(() => {
+    if (defaultValue) {
+      setValue('title', defaultValue.title);
+      setValue('date', defaultValue.date);
+      setValue('dateFrom', defaultValue.dateFrom);
+      setValue('dateTo', defaultValue.dateTo);
+      setValue('description', defaultValue.description);
+    }
+  }, [defaultValue]);
+
   const onSubmit = (data) => {
     const dateForm = {
       ...data,
@@ -47,12 +59,9 @@ const Modal = () => {
       id: Date.now(),
     };
 
-    // reset();
-    // closeModal();
-    console.log(dateForm);
-    console.log(defaultValue);
-    console.log(setDefaultValue(dateForm));
-    // setEvents((prev) => [...prev, dateForm]);
+    reset();
+    setModal({ visable: false, defaultValue: null });
+    createEvent(dateForm);
   };
 
   return (
@@ -76,7 +85,6 @@ const Modal = () => {
             <input
               placeholder="Title"
               className="event-form__field"
-              defaultValue={defaultValue.title}
               {...register('title', {
                 required: 'Поле обязательно к заполнению',
               })}
@@ -88,7 +96,6 @@ const Modal = () => {
             <div className="event-form__time">
               <input
                 type="date"
-                defaultValue={defaultValue.date}
                 className="event-form__field"
                 {...register('date', {
                   required: 'дату',
@@ -96,7 +103,6 @@ const Modal = () => {
               />
               <input
                 type="time"
-                defaultValue={defaultValue.dateFrom}
                 className="event-form__field"
                 {...register('dateFrom', {
                   required: 'время начала',
@@ -105,7 +111,6 @@ const Modal = () => {
               <span>-</span>
               <input
                 type="time"
-                defaultValue={defaultValue.dateTo}
                 className="event-form__field"
                 {...register('dateTo', {
                   required: 'время завершения',
@@ -116,7 +121,6 @@ const Modal = () => {
               {errosDate ? errosDate : ''}
             </div>
             <textarea
-              defaultValue={defaultValue.description}
               placeholder="Description"
               className="event-form__field"
               {...register('description')}

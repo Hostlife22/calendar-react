@@ -64,3 +64,21 @@ export const getDisplayedMonth = (date) => {
     ? `${months[startMonth]} - ${months[endMonth]} ${startYear}`
     : `${months[startMonth]} ${startYear} - ${months[endMonth]} ${endYear}`;
 };
+
+export const getEventDate = (weekStartDate, dataHour, dataDay) => {
+  const differenceDate = dataDay - new Date(weekStartDate).getDate();
+  const date = momemt(weekStartDate)
+    .add(differenceDate >= 0 ? differenceDate : dataDay, 'days')
+    .format('YYYY-MM-DD');
+
+  const dateFrom = momemt(date).set('hour', dataHour).format();
+  const dateTo = momemt(date)
+    .set('hour', dataHour + 1)
+    .format();
+
+  return { date, dateFrom, dateTo };
+};
+
+export const timeFormater = (data) => {
+  return momemt(data).format('HH:mm');
+};
