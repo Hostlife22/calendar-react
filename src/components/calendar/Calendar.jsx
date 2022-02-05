@@ -1,5 +1,4 @@
-import React, { useContext, useMemo, useState } from 'react';
-import { useEffect } from 'react/cjs/react.development';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import AppContext from '../../context/contex';
 import Gateway from '../../gateway/Gateway';
 import { generateWeekRange } from '../../utils/dateUtils';

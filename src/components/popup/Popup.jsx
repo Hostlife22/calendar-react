@@ -1,5 +1,4 @@
-import React, { useContext } from 'react';
-import { useEffect, useState } from 'react/cjs/react.development';
+import React, { useContext, useEffect, useState } from 'react';
 import AppContext from '../../context/contex';
 import { timeFormater } from '../../utils/dateUtils';
 import './popup.scss';

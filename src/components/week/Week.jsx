@@ -1,5 +1,4 @@
-import React, { useRef, useState } from 'react';
-import { useEffect } from 'react/cjs/react.development';
+import React, { useEffect, useRef, useState } from 'react';
 import { dateFormater } from '../../utils/dateUtils';
 import Day from '../day/Day';
 import './week.scss';

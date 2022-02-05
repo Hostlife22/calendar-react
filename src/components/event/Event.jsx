@@ -1,5 +1,4 @@
-import React, { useContext } from 'react';
-import { useEffect } from 'react/cjs/react.development';
+import React, { useContext, useEffect } from 'react';
 import AppContext from '../../context/contex';
 import { usePosition } from '../../hooks/useWindowDimensions';
 import './event.scss';
