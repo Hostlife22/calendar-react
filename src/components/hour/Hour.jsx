@@ -2,8 +2,9 @@ import React, { useContext } from 'react';
 import { formatMins, getEventDate } from '../../../src/utils/dateUtils.js';
 import AppContext from '../../context/contex';
 import Event from '../event/Event';
+import LineTime from '../lineTime/LineTime.jsx';
 
-const Hour = ({ dataHour, hourEvents, dataDay, setFilterId }) => {
+const Hour = ({ dataHour, hourEvents, dataDay, setFilterId, currentTime }) => {
   const { setModal, weekStartDate } = useContext(AppContext);
 
   const handleClick = () => {
@@ -42,6 +43,11 @@ const Hour = ({ dataHour, hourEvents, dataDay, setFilterId }) => {
           />
         );
       })}
+      {currentTime &&
+      dataDay === currentTime.getDate() &&
+      dataHour === currentTime.getHours() ? (
+        <LineTime styleTop={currentTime.getMinutes()} />
+      ) : null}
     </div>
   );
 };

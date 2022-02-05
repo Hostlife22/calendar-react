@@ -1,7 +1,17 @@
-import React from 'react';
-import { days } from '../../utils/dateUtils.js';
+import React, { useMemo } from 'react';
+import { dateFormater, days } from '../../utils/dateUtils.js';
 
 const Navigation = ({ weekDates }) => {
+  const isCurrentWeek = weekDates.find(
+    (date) => dateFormater(date) === dateFormater(new Date())
+  );
+
+  const setCurrentDay = useMemo(() => {
+    if (isCurrentWeek) {
+      return isCurrentWeek.getDate();
+    }
+  }, [isCurrentWeek]);
+
   return (
     <header className="calendar__header">
       {weekDates.map((dayDate) => {
@@ -13,7 +23,15 @@ const Navigation = ({ weekDates }) => {
             <span className="day-label__day-name">
               {days[dayDate.getDay()]}
             </span>
-            <span className="day-label__day-number">{dayDate.getDate()}</span>
+            <span
+              className={`day-label__day-number ${
+                setCurrentDay && setCurrentDay === dayDate.getDate()
+                  ? 'day-label__day-number_active'
+                  : ''
+              }`}
+            >
+              {dayDate.getDate()}
+            </span>
           </div>
         );
       })}

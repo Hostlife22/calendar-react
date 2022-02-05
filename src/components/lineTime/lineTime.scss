@@ -1,0 +1,23 @@
+.current-time {
+  position: absolute;
+  width: 100%;
+  z-index: 3;
+
+  &__line {
+    width: 100%;
+    background-color: #ff0000;
+    height: 3px;
+    position: absolute;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+  &__circle {
+    width: 10px;
+    top: -4px;
+    left: -5px;
+    background-color: #ff0000;
+    position: absolute;
+    border-radius: 50%;
+    height: 10px;
+  }
+}

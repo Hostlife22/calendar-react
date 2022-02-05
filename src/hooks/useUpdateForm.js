@@ -13,7 +13,7 @@ export const useDefaultValue = () => {
 
   const setDefaultVules = (data) => {
     setDefaultValue({
-      title: data?.title ? data.title : '',
+      title: data?.title ? data.title : 'No title',
       date: data?.date ? moment(data.date).format('YYYY-MM-DD') : '',
       dateFrom: data?.dateFrom ? timeFormater(data.dateFrom) : '',
       dateTo: data?.dateTo ? timeFormater(data.dateTo) : '',

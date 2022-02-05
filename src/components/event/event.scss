@@ -6,9 +6,16 @@
   border-radius: 8px;
   padding: 8px;
   color: #fff;
-  overflow: hidden;
   transition: all 0.34s ease;
   cursor: pointer;
+	overflow: auto;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+
+	&::-webkit-scrollbar{
+		width: 0;
+		height: 0;
+	}
 
   &__title {
     width: 100%;

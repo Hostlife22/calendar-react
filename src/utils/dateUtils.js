@@ -82,3 +82,7 @@ export const getEventDate = (weekStartDate, dataHour, dataDay) => {
 export const timeFormater = (data) => {
   return momemt(data).format('HH:mm');
 };
+
+export const dateFormater = (data) => {
+  return momemt(data).format('YYYY-MM-DD');
+};

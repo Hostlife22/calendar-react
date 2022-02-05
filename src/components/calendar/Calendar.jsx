@@ -1,6 +1,7 @@
 import React, { useContext, useMemo, useState } from 'react';
+import { useEffect } from 'react/cjs/react.development';
 import AppContext from '../../context/contex';
-import eventsObj from '../../gateway/events';
+import Gateway from '../../gateway/Gateway';
 import { generateWeekRange } from '../../utils/dateUtils';
 import Modal from '../modal/Modal';
 import Popup from '../popup/Popup';
@@ -10,31 +11,69 @@ import Navigation from './../navigation/Navigation';
 import './calendar.scss';
 
 const Calendar = () => {
-  const [events, setEvents] = useState(eventsObj);
+  const [events, setEvents] = useState([]);
   const { popup, setPopup, modal, setModal, weekStartDate } =
     useContext(AppContext);
   const [filterId, setFilterId] = useState(null);
 
-  const createEvent = (event) => {
-    if (filterId) {
-      const filtredEvents = events.filter(({ id }) => id !== filterId);
-      setEvents([...filtredEvents, event]);
-      setFilterId(null);
-    } else {
-      setEvents((prev) => [...prev, event]);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await Gateway.getEvents();
+        const data = await response.json();
+        setEvents((prev) => [...prev, ...data]);
+      } catch (e) {
+        alert('Ошибка при запросе данных :(');
+        console.error(e);
+      }
     }
+
+    fetchData();
+  }, []);
+
+  const createEvent = async (event) => {
+    try {
+      if (filterId) {
+        const filtredEvents = events.filter(({ id }) => id !== filterId);
+        setEvents([...filtredEvents, { ...event, id: filterId }]);
+        console.log(event, filterId);
+        await Gateway.updateEventList(filterId, event);
+        setFilterId(null);
+      } else {
+        setEvents((prev) => [...prev, event]);
+        const response = await Gateway.createEvent(event);
+        const data = await response.json();
+        setEvents((prev) =>
+          prev.map((item) => {
+            if (item.id === event.id) {
+              return {
+                ...item,
+                id: data.id,
+              };
+            }
+            return item;
+          })
+        );
+        console.log(event.id, data.id);
+      }
+    } catch (e) {}
   };
 
-  const deleteEvent = () => {
-    if (events.length && filterId) {
-      setEvents(events.filter(({ id }) => id !== filterId));
-      setPopup((prev) => ({
-        ...prev,
-        visable: false,
-        dimensions: null,
-      }));
-      setFilterId(null);
-    }
+  const deleteEvent = async () => {
+    try {
+      if (events.length && filterId) {
+        setEvents(events.filter(({ id }) => id !== filterId));
+        setPopup((prev) => ({
+          ...prev,
+          visable: false,
+          dimensions: null,
+        }));
+
+        const deleteId = filterId;
+        setFilterId(null);
+        await Gateway.deleteEvent(deleteId);
+      }
+    } catch (e) {}
   };
 
   const updateEvent = () => {
@@ -70,7 +109,9 @@ const Calendar = () => {
         </div>
       </div>
 
-      {modal.visable && <Modal createEvent={createEvent} />}
+      {modal.visable && (
+        <Modal createEvent={createEvent} events={events} filterId={filterId} />
+      )}
       {popup.visable && (
         <Popup
           setFilterId={setFilterId}

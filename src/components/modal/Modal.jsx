@@ -1,38 +1,45 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import AppContext from '../../context/contex';
 import { useDefaultValue } from '../../hooks/useUpdateForm';
+import { useValidate } from '../../hooks/useValidate';
 import { getDateTime } from '../../utils/dateUtils';
 import './modal.scss';
 
-const Modal = ({ createEvent }) => {
+const Modal = ({ createEvent, events, filterId }) => {
   const { setModal, modal } = useContext(AppContext);
   const [defaultValue, setDefaultValue] = useDefaultValue(null);
-  const [errosDate, setErrosDate] = useState('');
   const {
     register,
     handleSubmit,
     reset,
     setValue,
+    setError,
+    clearErrors,
+    getValues,
     formState: { errors },
   } = useForm({
     mode: 'onBlur',
   });
 
-  // Отслеживаю ошибки и формирую сообщение об ошибки
-  useEffect(() => {
-    if (errors.date || errors.dateTo || errors.dateFrom) {
-      console.log(errors.date, errors.dateTo, errors.dateFrom);
-      const errorMessage = [errors.date, errors.dateFrom, errors.dateTo]
-        .filter((error) => error !== undefined)
-        .map((error) => error.message)
-        .join(', ');
-
-      setErrosDate(`Введите ${errorMessage} события`);
-    } else {
-      setErrosDate('');
+  const errosDate = useValidate(errors, () => {
+    const date = getValues('date');
+    const dateFrom = getValues('dateFrom');
+    const dateTo = getValues('dateTo');
+    if (dateFrom && dateTo) {
+      const timeFormat =
+        dateTo.split(':').join('.') - dateFrom.split(':').join('.');
+      return { timeFormat, events, date, dateFrom, dateTo, filterId };
     }
-  }, [errors.date, errors.dateFrom, errors.dateTo]);
+  });
+
+  const isValid = () => {
+    if (errosDate.duration || errosDate.intersection) {
+      setError('test', { type: 'focus' }, { shouldFocus: true });
+    } else {
+      clearErrors('test');
+    }
+  };
 
   //Отслеживаю на переданные дефолтные знач.
   useEffect(() => {
@@ -99,6 +106,7 @@ const Modal = ({ createEvent }) => {
                 className="event-form__field"
                 {...register('date', {
                   required: 'дату',
+                  validate: isValid,
                 })}
               />
               <input
@@ -106,6 +114,7 @@ const Modal = ({ createEvent }) => {
                 className="event-form__field"
                 {...register('dateFrom', {
                   required: 'время начала',
+                  validate: isValid,
                 })}
               />
               <span>-</span>
@@ -114,11 +123,15 @@ const Modal = ({ createEvent }) => {
                 className="event-form__field"
                 {...register('dateTo', {
                   required: 'время завершения',
+                  validate: isValid,
                 })}
               />
             </div>
             <div className="event-form__error">
-              {errosDate ? errosDate : ''}
+              {errosDate.date ? errosDate.date : ''}
+            </div>
+            <div className="event-form__error">
+              {errosDate.duration ? errosDate.duration : errosDate.intersection}
             </div>
             <textarea
               placeholder="Description"
