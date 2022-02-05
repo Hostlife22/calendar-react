@@ -3,7 +3,15 @@ import AppContext from '../../context/contex';
 import { usePosition } from '../../hooks/useWindowDimensions';
 import './event.scss';
 
-const Event = ({ height, marginTop, id, title, time, setFilterId }) => {
+const Event = ({
+  height,
+  marginTop,
+  id,
+  title,
+  time,
+  setFilterId,
+  setDeletionError,
+}) => {
   const { setPopup, setPopupPosition } = useContext(AppContext);
   const [position, setPosition] = usePosition();
   const eventStyle = { height, marginTop };
@@ -16,6 +24,7 @@ const Event = ({ height, marginTop, id, title, time, setFilterId }) => {
     setPosition(e.clientX, e.clientY, { width: 400, height: 200 });
     e.stopPropagation();
     setPopup((prev) => ({ ...prev, visable: true, style: position }));
+    setDeletionError('');
     setFilterId(id);
   };
 

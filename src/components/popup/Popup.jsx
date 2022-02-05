@@ -3,7 +3,14 @@ import AppContext from '../../context/contex';
 import { timeFormater } from '../../utils/dateUtils';
 import './popup.scss';
 
-const Popup = ({ setFilterId, filterId, deleteEvent, updateEvent, events }) => {
+const Popup = ({
+  setFilterId,
+  filterId,
+  deleteEvent,
+  updateEvent,
+  events,
+  deletionError,
+}) => {
   const { setPopup, setPopupPosition, popupPosition } = useContext(AppContext);
   const [popupText, setPopupText] = useState({
     title: '',
@@ -53,6 +60,7 @@ const Popup = ({ setFilterId, filterId, deleteEvent, updateEvent, events }) => {
             popupText.dateFrom
           )} to ${timeFormater(popupText.dateTo)}`}</p>
           <p className="popup__text">{popupText.description}</p>
+          <p className="event-form__error">{deletionError && deletionError}</p>
         </div>
       </div>
     </div>

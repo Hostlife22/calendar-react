@@ -3,7 +3,7 @@ import { dateFormater } from '../../utils/dateUtils';
 import Day from '../day/Day';
 import './week.scss';
 
-const Week = ({ weekDates, events, setFilterId }) => {
+const Week = ({ weekDates, events, setFilterId, setDeletionError }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const intervalId = useRef();
 
@@ -55,6 +55,7 @@ const Week = ({ weekDates, events, setFilterId }) => {
             dayEvents={dayEvents}
             setFilterId={setFilterId}
             currentTime={currentTime}
+            setDeletionError={setDeletionError}
           />
         );
       })}

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import AppContext from '../../context/contex';
 import Gateway from '../../gateway/Gateway';
-import { generateWeekRange } from '../../utils/dateUtils';
+import { generateWeekRange, isDeletionAllowed } from '../../utils/dateUtils';
 import Modal from '../modal/Modal';
 import Popup from '../popup/Popup';
 import Sidebar from '../sidebar/Sidebar';
@@ -14,6 +14,7 @@ const Calendar = () => {
   const { popup, setPopup, modal, setModal, weekStartDate } =
     useContext(AppContext);
   const [filterId, setFilterId] = useState(null);
+  const [deletionError, setDeletionError] = useState('');
 
   useEffect(() => {
     async function fetchData() {
@@ -35,7 +36,6 @@ const Calendar = () => {
       if (filterId) {
         const filtredEvents = events.filter(({ id }) => id !== filterId);
         setEvents([...filtredEvents, { ...event, id: filterId }]);
-        console.log(event, filterId);
         await Gateway.updateEventList(filterId, event);
         setFilterId(null);
       } else {
@@ -63,6 +63,13 @@ const Calendar = () => {
   const deleteEvent = async () => {
     try {
       if (events.length && filterId) {
+        const [isDeletion, time] = isDeletionAllowed(events, filterId);
+
+        if (isDeletion) {
+          setDeletionError(`Удалять событие нельзя, ${time} до начала`);
+          return;
+        }
+
         setEvents(events.filter(({ id }) => id !== filterId));
         setPopup((prev) => ({
           ...prev,
@@ -83,6 +90,13 @@ const Calendar = () => {
 
   const updateEvent = () => {
     if (events.length && filterId) {
+      const [isDeletion, time] = isDeletionAllowed(events, filterId);
+
+      if (isDeletion) {
+        setDeletionError(`Редактировать нельзя, ${time} до начала`);
+        return;
+      }
+
       const updatedEvent = events.find(({ id }) => id === filterId);
       setPopup((prev) => ({
         ...prev,
@@ -110,6 +124,7 @@ const Calendar = () => {
             weekDates={weekDates}
             events={events}
             setFilterId={setFilterId}
+            setDeletionError={setDeletionError}
           />
         </div>
       </div>
@@ -124,6 +139,7 @@ const Calendar = () => {
           updateEvent={updateEvent}
           filterId={filterId}
           events={events}
+          deletionError={deletionError}
         />
       )}
     </section>

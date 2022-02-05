@@ -4,7 +4,14 @@ import AppContext from '../../context/contex';
 import Event from '../event/Event';
 import LineTime from '../lineTime/LineTime.jsx';
 
-const Hour = ({ dataHour, hourEvents, dataDay, setFilterId, currentTime }) => {
+const Hour = ({
+  dataHour,
+  hourEvents,
+  dataDay,
+  setFilterId,
+  currentTime,
+  setDeletionError,
+}) => {
   const { setModal, weekStartDate } = useContext(AppContext);
 
   const handleClick = () => {
@@ -40,6 +47,7 @@ const Hour = ({ dataHour, hourEvents, dataDay, setFilterId, currentTime }) => {
             title={title}
             id={id}
             setFilterId={setFilterId}
+            setDeletionError={setDeletionError}
           />
         );
       })}

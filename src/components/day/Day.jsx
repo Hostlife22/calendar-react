@@ -2,7 +2,13 @@ import React, { useMemo } from 'react';
 import Hour from '../hour/Hour';
 import './day.scss';
 
-const Day = ({ dataDay, dayEvents, setFilterId, currentTime }) => {
+const Day = ({
+  dataDay,
+  dayEvents,
+  setFilterId,
+  currentTime,
+  setDeletionError,
+}) => {
   const hours = useMemo(
     () =>
       Array(24)
@@ -27,6 +33,7 @@ const Day = ({ dataDay, dayEvents, setFilterId, currentTime }) => {
             dataDay={dataDay}
             setFilterId={setFilterId}
             currentTime={currentTime}
+            setDeletionError={setDeletionError}
           />
         );
       })}

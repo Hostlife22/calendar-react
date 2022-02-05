@@ -86,3 +86,26 @@ export const timeFormater = (data) => {
 export const dateFormater = (data) => {
   return momemt(data).format('YYYY-MM-DD');
 };
+
+export const isDeletionAllowed = (events, eventId) => {
+  const currentTime = new Date();
+  const { dateFrom } = events.find(({ id }) => id === eventId);
+  const timeToStart = Math.floor((new Date(dateFrom) - currentTime) / 60000);
+  let timeText = timeToStart;
+
+  switch (timeToStart) {
+    case 1:
+      timeText += ' минута';
+      break;
+    case 2:
+    case 3:
+    case 4:
+      timeText += ' минуты';
+      break;
+    default:
+      timeText += ' минут';
+      break;
+  }
+
+  return [timeToStart > 0 && timeToStart <= 15, timeText];
+};
