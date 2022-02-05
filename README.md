@@ -13,6 +13,7 @@
 - [Sass (Scss)](https://sass-lang.com/)
 - [BEM methodology](https://en.bem.info/methodology/)
 - [Webpack](https://webpack.js.org/)
+- [PropTypes](https://ru.reactjs.org/docs/typechecking-with-proptypes.html)
 
 
 ### Author
