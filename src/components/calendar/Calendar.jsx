@@ -54,9 +54,11 @@ const Calendar = () => {
             return item;
           })
         );
-        console.log(event.id, data.id);
       }
-    } catch (e) {}
+    } catch (e) {
+      alert('Ошибка при создании события :(');
+      console.error(e);
+    }
   };
 
   const deleteEvent = async () => {
@@ -70,10 +72,14 @@ const Calendar = () => {
         }));
 
         const deleteId = filterId;
+
         setFilterId(null);
         await Gateway.deleteEvent(deleteId);
       }
-    } catch (e) {}
+    } catch (e) {
+      alert('Ошибка при удаления события :(');
+      console.error(e);
+    }
   };
 
   const updateEvent = () => {
