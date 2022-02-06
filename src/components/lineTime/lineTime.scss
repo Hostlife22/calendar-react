@@ -6,10 +6,12 @@
   &__line {
     width: 100%;
     background-color: #ff0000;
-    height: 3px;
+    height: 3.3px;
     position: absolute;
+    top: calc(50% - 0.65px);
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
+    animation: pulse 1.2s ease-in-out infinite;
   }
   &__circle {
     width: 10px;
@@ -19,5 +21,18 @@
     position: absolute;
     border-radius: 50%;
     height: 10px;
+    animation: pulse 2.2s ease-in-out infinite;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #ff0000;
+  }
+  50% {
+    background-color: #ae3a3a;
+  }
+  100% {
+    background-color: #ff0000;
   }
 }
