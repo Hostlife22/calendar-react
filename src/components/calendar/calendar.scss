@@ -41,6 +41,10 @@
     height: 59px;
     position: relative;
     border-bottom: 1px solid #eee;
+
+    &:hover {
+      background-color: #fafafa;
+    }
   }
 
   &__day-label {
