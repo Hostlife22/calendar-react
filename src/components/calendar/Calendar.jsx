@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { CSSTransition } from 'react-transition-group';
 import AppContext from '../../context/contex';
 import Gateway from '../../gateway/Gateway';
 import { generateWeekRange, isDeletionAllowed } from '../../utils/dateUtils';
@@ -13,7 +14,7 @@ const Calendar = () => {
   const [events, setEvents] = useState([]);
   const { popup, setPopup, modal, setModal, weekStartDate } =
     useContext(AppContext);
-  const [filterId, setFilterId] = useState(null);
+  const [filterId, setFilterId] = useState('');
   const [deletionError, setDeletionError] = useState('');
 
   useEffect(() => {
@@ -37,7 +38,7 @@ const Calendar = () => {
         const filtredEvents = events.filter(({ id }) => id !== filterId);
         setEvents([...filtredEvents, { ...event, id: filterId }]);
         await Gateway.updateEventList(filterId, event);
-        setFilterId(null);
+        setFilterId('');
       } else {
         setEvents((prev) => [...prev, event]);
         const response = await Gateway.createEvent(event);
@@ -53,6 +54,7 @@ const Calendar = () => {
             return item;
           })
         );
+        setFilterId(data.id);
       }
     } catch (e) {
       alert('Ошибка при создании события :(');
@@ -79,7 +81,7 @@ const Calendar = () => {
 
         const deleteId = filterId;
 
-        setFilterId(null);
+        setFilterId('');
         await Gateway.deleteEvent(deleteId);
       }
     } catch (e) {
@@ -129,10 +131,21 @@ const Calendar = () => {
         </div>
       </div>
 
-      {modal.visable && (
+      <CSSTransition
+        in={modal.visable}
+        timeout={200}
+        classNames="my-node"
+        unmountOnExit
+      >
         <Modal createEvent={createEvent} events={events} filterId={filterId} />
-      )}
-      {popup.visable && (
+      </CSSTransition>
+
+      <CSSTransition
+        in={popup.visable}
+        timeout={200}
+        classNames="my-node"
+        unmountOnExit
+      >
         <Popup
           setFilterId={setFilterId}
           deleteEvent={deleteEvent}
@@ -141,7 +154,7 @@ const Calendar = () => {
           events={events}
           deletionError={deletionError}
         />
-      )}
+      </CSSTransition>
     </section>
   );
 };

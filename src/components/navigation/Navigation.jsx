@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 import { dateFormater, days } from '../../utils/dateUtils.js';
 
@@ -37,6 +38,10 @@ const Navigation = ({ weekDates }) => {
       })}
     </header>
   );
+};
+
+Navigation.propTypes = {
+  weekDates: PropTypes.array.isRequired,
 };
 
 export default Navigation;

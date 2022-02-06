@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import './lineTime.scss';
 
@@ -8,6 +9,10 @@ const LineTime = ({ styleTop }) => {
       <div className="current-time__circle"></div>
     </div>
   );
+};
+
+LineTime.propTypes = {
+  styleTop: PropTypes.number.isRequired,
 };
 
 export default LineTime;

@@ -7,7 +7,11 @@ import AppContext from './context/contex.js';
 
 const App = () => {
   const [modal, setModal] = useState({ visable: false, defaultValue: null });
-  const [popup, setPopup] = useState({ visable: false, dimensions: null });
+  const [popup, setPopup] = useState({
+    visable: false,
+    dimensions: null,
+    style: {},
+  });
   const [popupPosition, setPopupPosition] = useState(null);
   const [weekStartDate, setWeekStartDate] = useState(
     getWeekStartDate(new Date())

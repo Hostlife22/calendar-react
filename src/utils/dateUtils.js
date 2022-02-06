@@ -89,8 +89,16 @@ export const dateFormater = (data) => {
 
 export const isDeletionAllowed = (events, eventId) => {
   const currentTime = new Date();
-  const { dateFrom } = events.find(({ id }) => id === eventId);
-  const timeToStart = Math.floor((new Date(dateFrom) - currentTime) / 60000);
+  const dateEvent = events.find(({ id }) => id === eventId);
+
+  if (!dateEvent) {
+    console.log('sdfsdfsd');
+    return [true, ''];
+  }
+
+  const timeToStart = Math.floor(
+    (new Date(dateEvent.dateFrom) - currentTime) / 60000
+  );
   let timeText = timeToStart;
 
   switch (timeToStart) {

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import AppContext from '../../context/contex';
 import { timeFormater } from '../../utils/dateUtils';
@@ -12,6 +13,7 @@ const Popup = ({
   deletionError,
 }) => {
   const { setPopup, setPopupPosition, popupPosition } = useContext(AppContext);
+  const [position, setPosition] = useState(null);
   const [popupText, setPopupText] = useState({
     title: '',
     date: '',
@@ -19,6 +21,12 @@ const Popup = ({
     dateTo: '',
     description: '',
   });
+
+  useEffect(() => {
+    if (popupPosition) {
+      setPosition(popupPosition);
+    }
+  }, [popupPosition]);
 
   useEffect(() => {
     if (filterId) {
@@ -33,14 +41,14 @@ const Popup = ({
       dimensions: null,
     }));
     setPopupPosition(null);
-    setFilterId(null);
+    setFilterId('');
   };
 
   return (
     <div className="popup hidden overlay" onClick={onClosePopup}>
       <div
         className="popup__content"
-        style={popupPosition}
+        style={position}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="popup__buttons">
@@ -65,6 +73,18 @@ const Popup = ({
       </div>
     </div>
   );
+};
+
+Popup.propTypes = {
+  setFilterId: PropTypes.func.isRequired,
+  deleteEvent: PropTypes.func.isRequired,
+  updateEvent: PropTypes.func.isRequired,
+  events: PropTypes.array.isRequired,
+};
+
+Popup.defaultProps = {
+  filterId: '',
+  deletionError: '',
 };
 
 export default Popup;

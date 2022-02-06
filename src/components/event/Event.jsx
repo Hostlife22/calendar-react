@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useContext, useEffect } from 'react';
 import AppContext from '../../context/contex';
 import { usePosition } from '../../hooks/useWindowDimensions';
@@ -34,6 +35,19 @@ const Event = ({
       <div className="event__time">{time}</div>
     </div>
   );
+};
+
+Event.propTypes = {
+  height: PropTypes.number.isRequired,
+  marginTop: PropTypes.number.isRequired,
+  setFilterId: PropTypes.func.isRequired,
+  setDeletionError: PropTypes.func.isRequired,
+};
+
+Event.defaultProps = {
+  id: '',
+  title: '',
+  time: '',
 };
 
 export default Event;

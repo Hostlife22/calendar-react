@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import AppContext from '../../context/contex';
@@ -26,6 +27,7 @@ const Modal = ({ createEvent, events, filterId }) => {
     const date = getValues('date');
     const dateFrom = getValues('dateFrom');
     const dateTo = getValues('dateTo');
+
     if (dateFrom && dateTo) {
       const timeFormat =
         dateTo.split(':').join('.') - dateFrom.split(':').join('.');
@@ -41,7 +43,6 @@ const Modal = ({ createEvent, events, filterId }) => {
     }
   };
 
-  //Отслеживаю на переданные дефолтные знач.
   useEffect(() => {
     if (modal.defaultValue) {
       setDefaultValue(modal.defaultValue);
@@ -146,6 +147,15 @@ const Modal = ({ createEvent, events, filterId }) => {
       </div>
     </div>
   );
+};
+
+Modal.propTypes = {
+  createEvent: PropTypes.func.isRequired,
+  events: PropTypes.array.isRequired,
+};
+
+Modal.defaultProps = {
+  filterId: '',
 };
 
 export default Modal;

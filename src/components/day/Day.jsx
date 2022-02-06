@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 import Hour from '../hour/Hour';
 import './day.scss';
@@ -20,7 +21,6 @@ const Day = ({
   return (
     <div className="calendar__day" data-day={dataDay}>
       {hours.map((hour) => {
-        //getting all events from the day we will render
         const hourEvents = dayEvents.filter(
           (event) => event.dateFrom.getHours() === hour
         );
@@ -39,6 +39,17 @@ const Day = ({
       })}
     </div>
   );
+};
+
+Day.propTypes = {
+  dataDay: PropTypes.number.isRequired,
+  dayEvents: PropTypes.array.isRequired,
+  setFilterId: PropTypes.func.isRequired,
+  setDeletionError: PropTypes.func.isRequired,
+};
+
+Day.defaultProps = {
+  currentTime: null,
 };
 
 export default Day;

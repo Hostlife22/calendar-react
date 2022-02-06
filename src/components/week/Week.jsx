@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { dateFormater } from '../../utils/dateUtils';
 import Day from '../day/Day';
@@ -35,7 +36,6 @@ const Week = ({ weekDates, events, setFilterId, setDeletionError }) => {
           dayStart.getHours() + 24
         );
 
-        //getting all events from the day we will render
         const dayEvents = !events.length
           ? []
           : events
@@ -61,6 +61,13 @@ const Week = ({ weekDates, events, setFilterId, setDeletionError }) => {
       })}
     </div>
   );
+};
+
+Week.propTypes = {
+  weekDates: PropTypes.array.isRequired,
+  events: PropTypes.array.isRequired,
+  setFilterId: PropTypes.func.isRequired,
+  setDeletionError: PropTypes.func.isRequired,
 };
 
 export default Week;
