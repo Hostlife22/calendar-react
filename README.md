@@ -2,9 +2,11 @@
 
 ### [Site link](https://naughty-swanson-dd52b8.netlify.app/)
 
+<kbd>
+  <img align="right" alt="img" src="MqGtIa0.jpeg"  />
+</kbd>
+
  ### 🛠 The tech stack is:
-
-
 - [React](https://reactjs.org/)
 - [React-hook-form](https://react-hook-form.com/)
 - [React-transition-group](https://reactcommunity.org/react-transition-group/)
